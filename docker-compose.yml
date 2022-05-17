@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  # Database
+  db:
+    image: mysql
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: N2=bF2r-cD
+      MYSQL_DATABASE: skblistaging
+      MYSQL_USER: skblistaging
+      MYSQL_PASSWORD: dfsjoprepgjamp
+    ports:
+    - "3307:3306"
+    volumes:
+    - /root/db_data:/var/lib/mysql
+    networks:
+      wpsite:
+        ipv4_address: 10.5.0.4
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+    - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+    - 8081:80
+    networks:
+      wpsite:
+        ipv4_address: 10.5.0.5
+  web:
+    image: php
+    restart: 'always'
+    depends_on:
+    - db
+    restart: 'always'
+    volumes:
+    - ${PWD}:/home/baryons/public_html
+    ports:
+    - '9090:80'
+    networks:
+      wpsite:
+        ipv4_address: 10.5.0.6
+    links:
+    - db
+networks:
+  wpsite:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         #         gateway: 10.5.0.1
+volumes:
+  db_data:
+
