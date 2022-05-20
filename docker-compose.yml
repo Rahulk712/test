@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  # Database
+  db:
+    image: mysql
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: N2=bF2r-cD
+      MYSQL_DATABASE: mailreader
+      MYSQL_USER: mailreader
+      MYSQL_PASSWORD: mahesh@meena123
+    ports:
+    - "3307:3306"
+    volumes:
+    - /root/db_data:/var/lib/mysql
+    networks:
+      wpsite:
+        ipv4_address: 10.5.0.9
+  phpmyadmin:   
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+    - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+    - 8081:80
+    networks:
+      wpsite:
+        ipv4_address: 10.5.0.3
+  web:
+    image: python
+    restart: 'always'
+    depends_on:
+    - db
+    restart: 'always'
+    volumes:
+    - ${PWD}:/home/mailreader/public_html/mail_reader
+    ports:
+    - '9090:80'
+    networks:
+      wpsite:
+        ipv4_address: 10.5.0.7
+    links:
+    - db
+networks:
+  wpsite:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/24
+         #         gateway: 10.5.0.1
+volumes:
+  db_data:
+
