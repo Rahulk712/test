@@ -94,7 +94,7 @@ DATABASES = {
         'NAME': 'mailreader',
         'USER': 'mailreader',
         'PASSWORD': 'mahesh@meena123',
-        'HOST': 'solutions3.baryons.net',   # Or an IP Address that your DB is hosted on
+        'HOST': '10.5.0.9',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
