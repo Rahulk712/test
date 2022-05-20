@@ -20,7 +20,6 @@ RUN useradd mailreader
 RUN mkdir -p /home/mailreader/public_html/mail_reader
 COPY . /home/mailreader/public_html/mail_reader
 RUN mkdir -p /home/mailreader/logs
-RUN chown -R apache:apache /home/mailreader
 RUN mkdir -p /home/mailreader/public_html/mailreader_env/lib/python3.9/site-packages
 RUN pip3.9 install -r /home/mailreader/public_html/mail_reader/requirements.txt
 #CMD /home/mailreader/public_html/mailreader_env/bin/activate && pip install -r requirements.txt
@@ -86,6 +85,7 @@ RUN sed -i 's/AllowOverride none/AllowOverride all/g' /etc/httpd/conf/httpd.conf
 RUN sed -i 's/AllOverride none/AllOverride all/g' /etc/httpd/conf/httpd.conf
 RUN sed -i 's/UserDir disabled/#UserDir disabled/g' /etc/httpd/conf.d/userdir.conf
 RUN sed -i 's/#UserDir public_html/UserDir public_html/g' /etc/httpd/conf.d/userdir.conf
+RUN chown -R apache:apache /home
 ENTRYPOINT ["/usr/sbin/httpd","-D","FOREGROUND"]
 
 
