@@ -20,6 +20,7 @@ RUN useradd mailreader
 RUN mkdir -p /home/mailreader/public_html/mail_reader
 COPY . /home/mailreader/public_html/mail_reader
 RUN mkdir -p /home/mailreader/logs
+RUN chown -R apache:apache /home/mailreader
 RUN mkdir -p /home/mailreader/public_html/mailreader_env/lib/python3.9/site-packages
 RUN pip3.9 install -r /home/mailreader/public_html/mail_reader/requirements.txt
 #CMD /home/mailreader/public_html/mailreader_env/bin/activate && pip install -r requirements.txt
